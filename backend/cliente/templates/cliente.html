@@ -1,51 +1,235 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Meu Projeto</title>
-
-    <!-- SEO básico -->
-    <meta name="description" content="Descrição do projeto">
-    <meta name="author" content="Seu nome">
-
-    <!-- CSS principal -->
-    <link rel="stylesheet" href="/static/css/style.css">
-
-    <!-- Favicon (opcional) -->
-    <link rel="icon" href="/static/img/favicon.ico">
+    <title>Cadastro de Cliente | NexaPDV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        nexa: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 900: '#134e4a' } // Tema esmeralda moderno
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        /* Estilização Premium para Inputs */
+        .input-premium {
+            @apply w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 
+            focus:ring-2 focus:ring-nexa-500 focus:border-nexa-500 outline-none transition-all duration-200
+            dark:border-gray-700 dark:bg-gray-800/50 dark:text-white dark:focus:ring-nexa-500 dark:focus:border-nexa-500;
+        }
+        .label-premium {
+            @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5;
+        }
+        .section-title {
+            @apply text-xl font-bold text-gray-900 dark:text-white mb-6 pb-2 border-b border-gray-100 dark:border-gray-800;
+        }
+        
+        /* Custom Scrollbar para elegância */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { @apply bg-gray-300 dark:bg-gray-700 rounded-full; }
+    </style>
 </head>
+<body class="bg-white dark:bg-gray-950 min-h-screen transition-colors duration-300 antialiased selection:bg-nexa-500 selection:text-white">
 
-<body>
-
-    <!-- HEADER -->
-    <header>
-        <nav>
-            <h1>Logo / Nome</h1>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/sobre">Sobre</a></li>
-                <li><a href="/contato">Contato</a></li>
-            </ul>
-        </nav>
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-nexa-500 to-nexa-600 flex items-center justify-center text-white font-bold shadow-lg shadow-nexa-500/30">N</div>
+                <h1 class="text-lg font-bold text-gray-900 dark:text-white">NexaPDV</h1>
+            </div>
+            <button id="theme-toggle" class="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                <svg id="icon-moon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="icon-sun" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 1.32a1 1 0 011.415 0l.708.708a1 1 0 01-1.414 1.415l-.708-.708a1 1 0 010-1.415zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zm-1.32 4.22a1 1 0 010 1.415l-.708.708a1 1 0 01-1.414-1.414l.708-.708a1 1 0 011.415 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.22-1.32a1 1 0 01-1.415 0l-.708-.708a1 1 0 011.414-1.415l.708.708a1 1 0 010 1.415zM4 10a1 1 0 01-1 1H2a1 1 0 110-2h1a1 1 0 011 1zm1.32-4.22a1 1 0 010-1.415l.708-.708a1 1 0 011.414 1.414l-.708.708a1 1 0 01-1.415 0z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
     </header>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main>
-        <section>
-            <h2>Título da Página</h2>
-            <p>Conteúdo principal aqui...</p>
-        </section>
-    </main>
+    <div class="max-w-7xl mx-auto px-6 py-10 lg:py-14 flex flex-col lg:flex-row gap-12">
+        
+        <aside class="hidden lg:block w-64 shrink-0">
+            <div class="sticky top-28">
+                <h3 class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4">Navegação</h3>
+                <nav class="space-y-1 relative before:absolute before:inset-y-0 before:left-2 before:w-0.5 before:bg-gray-100 dark:before:bg-gray-800">
+                    <a href="#dados-pessoais" class="nav-link flex items-center gap-4 py-2 px-6 text-nexa-600 dark:text-nexa-500 font-medium relative">
+                        <span class="absolute left-1.5 w-1.5 h-1.5 rounded-full bg-nexa-500"></span>
+                        Dados Pessoais
+                    </a>
+                    <a href="#documentacao" class="nav-link flex items-center gap-4 py-2 px-6 text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors relative">
+                        <span class="absolute left-1.5 w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700"></span>
+                        Documentação
+                    </a>
+                    <a href="#contato" class="nav-link flex items-center gap-4 py-2 px-6 text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors relative">
+                        <span class="absolute left-1.5 w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700"></span>
+                        Contato & Extra
+                    </a>
+                </nav>
+            </div>
+        </aside>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2026 - Meu Projeto. Todos os direitos reservados.</p>
-    </footer>
+        <main class="flex-1 max-w-3xl">
+            <div class="mb-10">
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Adicionar Cliente</h2>
+                <p class="text-gray-500 dark:text-gray-400 mt-2 text-lg">Preencha os campos abaixo para registrar um novo perfil.</p>
+            </div>
 
-    <!-- JS -->
-    <script src="/static/js/app.js"></script>
+            <form method="POST" class="space-y-16">
+                {% csrf_token %}
 
+                <section id="dados-pessoais" class="scroll-mt-28">
+                    <h3 class="section-title">Dados Pessoais</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-2">
+                            <label class="label-premium">Nome Completo</label>
+                            <input type="text" name="name" placeholder="Ex: Machado de Assis" class="input-premium" required>
+                        </div>
+                        <div>
+                            <label class="label-premium">Gênero</label>
+                            <select name="genero" class="input-premium appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[position:right_1rem_center] bg-[length:0.65em_auto]">
+                                {% for val, text in LISTA_GENERO %}
+                                    <option value="{{ val }}">{{ text }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="documentacao" class="scroll-mt-28">
+                    <h3 class="section-title">Documentação e Filiação</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="label-premium">CPF</label>
+                            <input type="text" name="cpf" placeholder="000.000.000-00" class="input-premium">
+                        </div>
+                        <div>
+                            <label class="label-premium">CNPJ <span class="text-gray-400 font-normal text-xs">(Opcional)</span></label>
+                            <input type="text" name="cnpj" placeholder="00.000.000/0000-00" class="input-premium">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="label-premium">RG</label>
+                            <input type="text" name="rg" placeholder="00.000.000-0" class="input-premium md:w-1/2">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-gray-50/50 dark:bg-gray-900/30 p-6 rounded-2xl border border-gray-100 dark:border-gray-800">
+                        <div>
+                            <label class="label-premium">Nome da Mãe</label>
+                            <input type="text" name="name_mother" class="input-premium">
+                        </div>
+                        <div>
+                            <label class="label-premium">Nome do Pai <span class="text-gray-400 font-normal text-xs">(Opcional)</span></label>
+                            <input type="text" name="name_father" class="input-premium">
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contato" class="scroll-mt-28">
+                    <h3 class="section-title">Contato e Informações Extras</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="label-premium">E-mail</label>
+                            <input type="email" name="email" placeholder="contato@email.com" class="input-premium" required>
+                        </div>
+                        <div>
+                            <label class="label-premium">Telefone / Celular</label>
+                            <input type="tel" name="telephone" placeholder="+55 (11) 99999-9999" class="input-premium" required>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="label-premium">Observações do Cliente</label>
+                            <textarea name="observation" rows="3" class="input-premium resize-none" placeholder="Detalhes importantes para o atendimento..."></textarea>
+                        </div>
+                        <div>
+                            <label class="label-premium">Informações Extras</label>
+                            <textarea name="extra_information" rows="2" class="input-premium resize-none" placeholder="Anotações internas..."></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="pt-8 mt-12 border-t border-gray-200 dark:border-gray-800 flex items-center justify-end gap-4">
+                    <a href="#" class="px-6 py-3 rounded-xl text-sm font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="px-8 py-3 rounded-xl bg-nexa-600 hover:bg-nexa-500 text-white text-sm font-bold shadow-lg shadow-nexa-500/25 transition-all transform hover:-translate-y-0.5 focus:ring-4 focus:ring-nexa-500/50">
+                        Salvar Cliente
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // 1. Lógica do Dark Mode Impecável
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('icon-moon');
+        const lightIcon = document.getElementById('icon-sun');
+
+        function updateIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            } else {
+                lightIcon.classList.add('hidden');
+                darkIcon.classList.remove('hidden');
+            }
+        }
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        updateIcons();
+
+        themeToggleBtn.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            updateIcons();
+        });
+
+        // 2. Lógica do ScrollSpy (Atualiza a sidebar conforme rola a página)
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-nexa-600', 'dark:text-nexa-500', 'font-medium');
+                link.classList.add('text-gray-500');
+                const dot = link.querySelector('span');
+                dot.classList.remove('bg-nexa-500');
+                dot.classList.add('bg-gray-200', 'dark:bg-gray-700');
+                
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('text-nexa-600', 'dark:text-nexa-500', 'font-medium');
+                    link.classList.remove('text-gray-500');
+                    dot.classList.add('bg-nexa-500');
+                    dot.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

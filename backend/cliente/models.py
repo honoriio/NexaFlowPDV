@@ -23,20 +23,21 @@ class Base(models.Model):
 
 
 class Cliente(Base):
-    name = models.CharField(max_length=100)
+    nome = models.CharField(max_length=100)
     genero = models.CharField(max_length=10, choices=LISTA_GENERO)
+    data_nascimento = models.DateField(verbose_name="Data de Nascimento", null=True, blank=True)
     cpf = BRCPFField(verbose_name="CPF", unique=True, null=True, blank=True)
     cnpj = BRCNPJField(verbose_name="CNPJ", blank=True, unique=True, null=True)
     rg = models.CharField(max_length=20, blank=True, null=True) 
-    name_father = models.CharField(max_length=100, blank=True, null=True)
-    name_mother = models.CharField(max_length=100, blank=True, null=True)
+    nome_pai = models.CharField(max_length=100, blank=True, null=True)
+    nome_mae = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(unique=True)
-    telephone = PhoneNumberField(unique=True)
-    observation = models.TextField(blank=True)
-    extra_information = models.TextField(blank=True)
+    telefone = PhoneNumberField(unique=True)
+    observacao = models.TextField(blank=True)
+    informacao_extra = models.TextField(blank=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['nome']
         verbose_name = 'Cliente'
         verbose_name_plural = 'Clientes'
 
